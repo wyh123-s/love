@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#fff5f7">
+<title>高凯雯 ❤ 我的心意</title>
+<style>
+/* ============ 基础重置 ============ */
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; }
+body {
+  font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue",
+              "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+  color:#7a4a5c;
+  background:#fff5f7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.9;
+}
+
+/* ============ 柔和渐变背景 + 光晕 ============ */
+.bg {
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(60% 45% at 20% 12%, #ffe3ee 0%, rgba(255,227,238,0) 60%),
+    radial-gradient(55% 40% at 85% 25%, #ffe9f0 0%, rgba(255,233,240,0) 62%),
+    radial-gradient(70% 50% at 50% 100%, #ffeef3 0%, rgba(255,238,243,0) 65%),
+    linear-gradient(180deg, #fff7f9 0%, #fff1f5 45%, #ffe9f0 100%);
+}
+/* 缓慢漂浮的光斑（纯渐变，不用 filter:blur，手机不掉帧） */
+.orb { position:fixed; z-index:0; pointer-events:none; border-radius:50%; opacity:.55; }
+.orb.a { width:46vmin; height:46vmin; left:-12vmin; top:8vh;
+  background:radial-gradient(circle, rgba(255,183,208,.75) 0%, rgba(255,183,208,0) 70%);
+  animation:float1 16s ease-in-out infinite; }
+.orb.b { width:52vmin; height:52vmin; right:-14vmin; top:38vh;
+  background:radial-gradient(circle, rgba(255,205,220,.7) 0%, rgba(255,205,220,0) 70%);
+  animation:float2 20s ease-in-out infinite; }
+.orb.c { width:38vmin; height:38vmin; left:26vw; bottom:-10vmin;
+  background:radial-gradient(circle, rgba(255,222,235,.8) 0%, rgba(255,222,235,0) 70%);
+  animation:float1 24s ease-in-out infinite reverse; }
+@keyframes float1 { 0%,100%{ transform:translate3d(0,0,0) scale(1);} 50%{ transform:translate3d(4vmin,-3vmin,0) scale(1.08);} }
+@keyframes float2 { 0%,100%{ transform:translate3d(0,0,0) scale(1.05);} 50%{ transform:translate3d(-5vmin,4vmin,0) scale(1);} }
+
+/* ============ 爱心画布 ============ */
+#hearts { position:fixed; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
+
+/* ============ 内容容器 ============ */
+.wrap { position:relative; z-index:2; max-width:720px; margin:0 auto;
+  padding:calc(env(safe-area-inset-top) + 42px) 18px calc(env(safe-area-inset-bottom) + 46px); }
+
+/* ============ 顶部标题 ============ */
+.hero { text-align:center; padding:10px 0 26px; }
+.hero .sub { font-size:13px; letter-spacing:.42em; color:#e08ea9; text-indent:.42em;
+  text-shadow:0 0 14px rgba(255,150,185,.45); }
+.hero h1 { margin:14px 0 10px; font-size:clamp(28px, 8.2vw, 44px); font-weight:700; letter-spacing:.06em;
+  color:#e8547f;
+  text-shadow:0 0 22px rgba(255,130,170,.55), 0 0 46px rgba(255,180,205,.35);
+  animation:breathe 4.5s ease-in-out infinite; }
+.hero .line { width:88px; height:2px; margin:16px auto 0; border-radius:2px;
+  background:linear-gradient(90deg, transparent, #ff9ec0, transparent);
+  box-shadow:0 0 12px rgba(255,150,185,.7); }
+@keyframes breathe { 0%,100%{ transform:translateY(0); filter:brightness(1);} 50%{ transform:translateY(-4px); filter:brightness(1.12);} }
+
+/* ============ 通用卡片 ============ */
+.card {
+  position:relative; border-radius:22px; padding:20px 18px;
+  background:rgba(255,255,255,.66);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 12px 40px rgba(255,140,175,.18), 0 0 60px rgba(255,200,220,.28) inset;
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+}
+.card + .card { margin-top:26px; }
+@supports not ((backdrop-filter:blur(4px)) or (-webkit-backdrop-filter:blur(4px))) {
+  .card { background:rgba(255,255,255,.88); }
+}
+.card-title { text-align:center; font-size:15px; color:#e08ea9; letter-spacing:.3em;
+  text-indent:.3em; margin-bottom:16px; text-shadow:0 0 12px rgba(255,150,185,.4); }
+
+/* ============ 轮播 ============ */
+.carousel { position:relative; }
+/* 用 padding-top 撑高 4:3，兼容老版本微信内置浏览器（不支持 aspect-ratio） */
+.stage { position:relative; padding-top:75%; border-radius:18px; overflow:hidden;
+  box-shadow:0 14px 34px rgba(233,120,160,.28), 0 0 0 1px rgba(255,255,255,.85) inset;
+  background:#ffeef4; }
+.slide { position:absolute; inset:0; opacity:0; transform:scale(1.04);
+  transition:opacity .75s ease, transform 5.5s linear; pointer-events:none; }
+.slide.active { opacity:1; transform:scale(1); }
+.pad { position:absolute; inset:0; overflow:hidden; }
+.pad > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+.stage::after { content:""; position:absolute; inset:0; pointer-events:none; border-radius:18px;
+  background:linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(255,160,190,.18) 100%); }
+
+.nav { position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:44px; border:0; border-radius:50%; cursor:pointer;
+  background:rgba(255,255,255,.78); color:#e8547f; font-size:24px; line-height:44px;
+  box-shadow:0 6px 18px rgba(233,120,160,.3), 0 0 20px rgba(255,255,255,.6);
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  transition:transform .2s ease, background .2s ease; z-index:3; }
+.nav:active { transform:translateY(-50%) scale(.9); background:#fff; }
+.nav.prev { left:10px; } .nav.next { right:10px; }
+
+.dots { display:flex; justify-content:center; gap:8px; margin-top:14px; }
+.dot { width:7px; height:7px; border-radius:7px; border:0; padding:0; cursor:pointer;
+  background:rgba(232,132,166,.32); transition:all .3s ease; }
+.dot.on { width:22px; background:#ff87ac; box-shadow:0 0 12px rgba(255,135,172,.85); }
+
+.caption { margin-top:16px; text-align:center; min-height:74px; padding:0 6px;
+  transition:opacity .3s ease, transform .3s ease; }
+.caption.swap { opacity:0; transform:translateY(8px); }
+.caption .t { font-size:17px; font-weight:600; color:#e8547f; letter-spacing:.08em;
+  text-shadow:0 0 16px rgba(255,130,170,.45); }
+.caption .d { margin-top:6px; font-size:14.5px; color:#8a6070; letter-spacing:.03em; }
+
+/* ============ 表白正文 ============ */
+.letter { font-size:15.5px; color:#855a6b; }
+.letter p { margin:0 0 16px; text-indent:2em; }
+.letter p:last-child { margin-bottom:0; }
+.letter .em { color:#e8547f; font-weight:600; text-shadow:0 0 14px rgba(255,130,170,.35); }
+.sign { text-align:right; margin-top:22px; font-size:14.5px; color:#c07f96; font-style:italic;
+  text-shadow:0 0 12px rgba(255,150,185,.3); }
+.heart-break { text-align:center; color:#ff9ec0; letter-spacing:.6em; margin:18px 0; font-size:13px;
+  text-shadow:0 0 14px rgba(255,150,185,.6); }
+
+/* ============ 底部 ============ */
+.footer { text-align:center; margin-top:30px; font-size:12.5px; color:#c69aab; letter-spacing:.14em; }
+
+/* ============ 进入动画 ============ */
+.reveal { opacity:0; transform:translateY(26px);
+  transition:opacity .9s cubic-bezier(.22,.8,.3,1), transform .9s cubic-bezier(.22,.8,.3,1); }
+.reveal.in { opacity:1; transform:none; }
+
+/* ============ 音乐按钮 ============ */
+/* 音乐按钮层级高于便签墙（#intro 是 140），定格后依然能点 */
+#musicBtn {
+  position:fixed; z-index:160; right:14px; top:calc(env(safe-area-inset-top) + 14px);
+  width:46px; height:46px; border:0; border-radius:50%; cursor:pointer;
+  background:rgba(255,255,255,.82); color:#e8547f; font-size:20px; line-height:46px; text-align:center;
+  box-shadow:0 8px 22px rgba(233,120,160,.32), 0 0 22px rgba(255,255,255,.7);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  transition:transform .25s ease;
+}
+#musicBtn.playing { animation:spin 6s linear infinite; color:#ff5c8a; box-shadow:0 8px 22px rgba(233,120,160,.4), 0 0 28px rgba(255,120,165,.55); }
+#musicBtn:active { transform:scale(.9); }
+@keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+
+/* 提示气泡 */
+#toast { position:fixed; z-index:161; left:50%; bottom:26px; transform:translate(-50%, 14px);
+  padding:9px 16px; border-radius:20px; font-size:13px; color:#a4526e;
+  background:rgba(255,255,255,.94); box-shadow:0 8px 22px rgba(233,120,160,.28);
+  opacity:0; transition:opacity .3s ease, transform .3s ease; pointer-events:none; }
+#toast.show { opacity:1; transform:translate(-50%, 0); }
+
+/* ============ 进门问答（不同意就出不去） ============ */
+.gate { position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+  padding:24px; text-align:center;
+  /* 满屏小爱心当背景（SVG 底纹 + 粉白渐变），不用加载图片、放大不糊 */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'%3E%3Cg fill='%23ff9dc2' fill-opacity='.45'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' transform='translate(12 16) scale(1.7) rotate(-14 12 12)'/%3E%3C/g%3E%3Cg fill='%23ffc0d7' fill-opacity='.6'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' transform='translate(74 76) scale(1.2) rotate(18 12 12)'/%3E%3C/g%3E%3Cg fill='%23ffb3ce' fill-opacity='.4'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' transform='translate(88 18) scale(.8) rotate(-28 12 12)'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 8%, #ffe2ee 0%, #fff5f9 46%, #fffafc 100%);
+  background-size: 132px 132px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+  transition:opacity .6s ease, transform .6s ease; }
+.gate.out { opacity:0; transform:scale(1.05); pointer-events:none; }
+.gate-inner { max-width:420px; width:100%; }
+/* ---------- 噜噜表情包（替代原来的 ♥） ---------- */
+.lulu { position:relative; width:clamp(104px, 32vw, 140px); height:clamp(104px, 32vw, 140px);
+  margin:0 auto 10px; z-index:129; }          /* 层级压过铺满全屏的"同意"按钮 */
+.lulu-wrap { position:relative; width:100%; height:100%; }
+.lulu-face { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-size:clamp(64px, 21vw, 92px); line-height:1;
+  animation:luluBreathe 3.2s ease-in-out infinite; }
+.lulu-img { max-width:100%; max-height:100%; display:none; -webkit-user-select:none; user-select:none; }
+.lulu.has-img .lulu-img { display:block; }
+.lulu.has-img .lulu-emoji { display:none; }
+.tears { position:absolute; inset:0; pointer-events:none; overflow:visible; }
+.tear { position:absolute; top:52%; font-size:16px; opacity:0; pointer-events:none;
+  animation:tearFall 1.1s linear infinite; }
+@keyframes luluBreathe { 0%,100% { transform:scale(1); } 50% { transform:scale(1.07); } }
+@keyframes luluShake {
+  0%,100% { transform:translateX(0) rotate(0); }
+  20% { transform:translateX(calc(var(--sh,3px) * -1)) rotate(-2deg); }
+  55% { transform:translateX(var(--sh,3px)) rotate(2deg); }
+  85% { transform:translateX(calc(var(--sh,3px) * -.6)) rotate(-1deg); }
+}
+@keyframes tearFall {
+  0%   { transform:translate(-50%,0) scale(.5); opacity:0; }
+  18%  { opacity:1; }
+  100% { transform:translate(-50%,54px) scale(1.05); opacity:0; }
+}
+@keyframes luluHappy {
+  0%   { transform:scale(1) rotate(0); }
+  28%  { transform:scale(1.3) rotate(-9deg); }
+  55%  { transform:scale(1.18) rotate(9deg); }
+  78%  { transform:scale(1.24) rotate(-4deg); }
+  100% { transform:scale(1.22) rotate(0); }
+}
+@keyframes sparkGo {
+  0%   { transform:translate(-50%,-50%) scale(.3); opacity:0; }
+  30%  { opacity:1; }
+  100% { transform:translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1); opacity:0; }
+}
+.spark { position:fixed; left:50%; top:50%; z-index:131; pointer-events:none; font-size:20px; }
+
+/* "同意"越点越大，最后一次直接铺满全屏 */
+.gbtn.yes.big { z-index:5; }
+.gbtn.yes.cover { position:fixed; inset:0; width:100%; height:100%; transform:none;
+  border-radius:0; z-index:128; padding:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:clamp(34px, 14vw, 92px); letter-spacing:.12em;
+  box-shadow:none; background:linear-gradient(135deg, #ffa0bf, #ff5c8a); }
+.gate h2 { margin:16px 0 8px; font-size:clamp(22px, 6.4vw, 30px); font-weight:700; color:#e8547f;
+  letter-spacing:.04em; text-shadow:0 0 20px rgba(255,130,170,.5); }
+.gate-sub { font-size:13.5px; color:#c08ea2; letter-spacing:.14em; margin-bottom:30px; }
+.gate-btns { position:relative; display:flex; gap:16px; justify-content:center; align-items:center;
+  min-height:56px; }
+.gbtn { border:0; border-radius:999px; padding:13px 32px; font-size:17px; cursor:pointer;
+  font-family:inherit; white-space:nowrap;
+  transition:transform .3s cubic-bezier(.3,1.4,.5,1), box-shadow .3s ease, background .3s ease; }
+.gbtn.yes { background:linear-gradient(135deg, #ff95b7, #ff5c8a); color:#fff; font-weight:600;
+  box-shadow:0 10px 26px rgba(255,92,138,.38), 0 0 32px rgba(255,150,185,.5); }
+.gbtn.yes:active { transform:scale(.94); }
+.gbtn.no { position:relative; background:#fff; color:#bb8fa0; border:1px solid #ffd9e6;
+  box-shadow:0 6px 16px rgba(233,120,160,.18); }
+.gate-nag { margin-top:22px; min-height:26px; font-size:14.5px; color:#e07a9d;
+  opacity:0; transform:translateY(6px); transition:opacity .3s ease, transform .3s ease; }
+.gate-nag.show { opacity:1; transform:none; }
+
+/* 挽留弹窗：只有"我愿意"才能真正进去 */
+.ask { position:fixed; inset:0; z-index:120; display:flex; align-items:center; justify-content:center;
+  padding:24px; background:rgba(255,236,243,.74); opacity:0; pointer-events:none;
+  transition:opacity .35s ease; }
+.ask.show { opacity:1; pointer-events:auto; }
+.ask-card { max-width:340px; width:100%; padding:30px 22px 26px; border-radius:24px; text-align:center;
+  background:rgba(255,255,255,.94); border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 18px 46px rgba(233,120,160,.3), 0 0 60px rgba(255,200,220,.35);
+  transform:scale(.9); transition:transform .35s cubic-bezier(.3,1.4,.5,1); }
+.ask.show .ask-card { transform:scale(1); }
+.ask-emoji { font-size:38px; }
+.ask-text { margin:12px 0 24px; font-size:18px; font-weight:600; color:#e8547f; line-height:1.7;
+  text-shadow:0 0 16px rgba(255,130,170,.4); }
+.ask-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.ask-btns .gbtn { padding:12px 24px; font-size:16px; }
+
+/* 同意时的爱心炸开 */
+.burst { position:fixed; left:50%; top:50%; z-index:130; pointer-events:none;
+  font-size:22px; color:#ff6f91; text-shadow:0 0 16px rgba(255,120,170,.85); opacity:0; }
+@keyframes burstGo {
+  0%   { transform:translate(-50%,-50%) scale(.4); opacity:0; }
+  22%  { opacity:1; }
+  100% { transform:translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.15); opacity:0; }
+}
+
+/* ============ 开场动画：照片汇聚成爱心 → 化作粒子爱心 ============ */
+#intro { position:fixed; inset:0; z-index:140; display:none; opacity:0;
+  background:rgba(255,247,250,.94); }
+#introSkip { position:fixed; z-index:150; left:0; right:0;
+  bottom:calc(env(safe-area-inset-bottom) + 24px); text-align:center;
+  font-size:13px; color:#d79aae; letter-spacing:.22em;
+  opacity:0; visibility:hidden; transition:opacity .4s ease; }
+#introSkip.show { opacity:1; visibility:visible; pointer-events:auto; }
+
+/* 屏幕很窄时的微调 */
+@media (max-width:360px){
+  .wrap { padding-left:12px; padding-right:12px; }
+  .letter { font-size:14.5px; }
+  .nav { width:38px; height:38px; line-height:38px; font-size:21px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .orb, .hero h1, #musicBtn.playing { animation:none !important; }
+}
+</style>
+<noscript><style>.reveal{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb a"></div>
+<div class="orb b"></div>
+<div class="orb c"></div>
+<canvas id="hearts"></canvas>
+
+<!-- ============ 进门问答：只有点"同意"才能进 ============ -->
+<div class="gate" id="gate">
+  <div class="gate-inner">
+    <!-- 噜噜表情包：图片名在下面 JS 的 LULU_CONF 里配置，没图时自动用 emoji 兜底 -->
+    <div class="lulu" id="lulu">
+      <div class="lulu-wrap" id="luluWrap">
+        <div class="lulu-face" id="luluFace">
+          <img class="lulu-img" id="luluImg" alt="噜噜">
+          <span class="lulu-emoji" id="luluEmoji">🐷</span>
+        </div>
+        <div class="tears" id="tears"></div>
+      </div>
+    </div>
+    <!-- 想改提问的话，直接改下面这行 h2 的文字 -->
+    <h2>高凯雯愿不愿意永远和我在一起？</h2>
+    <p class="gate-sub">认真回答，不许逃避哦</p>
+    <div class="gate-btns" id="gateBtns">
+      <button class="gbtn yes" id="yesBtn">同意</button>
+      <button class="gbtn no" id="noBtn">不同意</button>
+    </div>
+    <div class="gate-nag" id="gateNag"></div>
+  </div>
+</div>
+
+<!-- 点"不同意"后的挽留弹窗，关不掉，只能回到上面那一题 -->
+<div class="ask" id="ask">
+  <div class="ask-card">
+    <div class="ask-emoji">🥺</div>
+    <p class="ask-text" id="askText">你不愿意跟我一直在一起吗？</p>
+    <div class="ask-btns">
+      <button class="gbtn no" id="askBack">再想想…</button>
+      <button class="gbtn yes" id="askYes">我愿意 ♥</button>
+    </div>
+  </div>
+</div>
+
+<!-- 开场动画画布（点"同意"后播放） -->
+<canvas id="intro"></canvas>
+<div id="introSkip">轻触跳过</div>
+
+<!-- 音乐按钮 -->
+<button id="musicBtn" aria-label="背景音乐开关" aria-pressed="false">♫</button>
+<div id="toast"></div>
+
+<div class="wrap">
+
+  <!-- ============ 标题 ============ -->
+  <header class="hero">
+    <div class="sub">F O R E V E R &nbsp; L O V E</div>
+    <div class="line"></div>
+  </header>
+
+  <!-- ============ 照片轮播 ============ -->
+  <section class="card reveal">
+    <div class="card-title">我 们 的 故 事</div>
+    <div class="carousel">
+      <div class="stage" id="stage"></div>
+      <button class="nav prev" id="prev" aria-label="上一张">‹</button>
+      <button class="nav next" id="next" aria-label="下一张">›</button>
+    </div>
+    <div class="dots" id="dots"></div>
+    <div class="caption" id="caption">
+      <div class="t" id="capTitle"></div>
+      <div class="d" id="capText"></div>
+    </div>
+  </section>
+
+  <!-- ============ 表白正文 ============ -->
+  <section class="card reveal letter" id="letter">
+    <!-- ============================================================
+         【修改表白正文】
+         直接在下面这些 <p> 标签里改文字即可，想加段落就复制一行 <p>...</p>。
+         想强调某几个字，用 <span class="em">文字</span> 包起来，会变成粉红色发光效果。
+    ============================================================= -->
+    <p>第一次见到你的时候，我并没有想过，后来所有的心动，都会和你有关。</p>
+
+    <p>我记得你笑起来的样子，记得你说过的话，也记得那些再普通不过的傍晚——
+       只是和你并肩走着，风很轻，天很蓝，我就觉得<span class="em">这一生好像也没那么长，只够好好爱一个人</span>。</p>
+
+    <p>我喜欢你认真时的专注，喜欢你孩子气时的可爱，也喜欢你偶尔的小脾气。
+       你所有的样子我都喜欢，因为那都是<span class="em">你</span>。</p>
+
+    <p>这个世界很大，人海很拥挤，能在这么多人里遇到你，是我攒了很久的运气。
+       所以我鼓起勇气，把那些藏在心里、反复练习却总也说不出口的话，写在这里。</p>
+
+    <p><span class="em">我喜欢你。</span>不是一时兴起，是想了很久很久之后，依然确定的那种喜欢。</p>
+
+    <p>我想和你一起吃很多很多顿饭，走很多很多条路，
+       看春天的花、夏天的海、秋天的落叶和冬天的雪；
+       想在每一个平凡的日子里，都能对你说一句"今天也辛苦啦"。</p>
+
+    <p>如果可以的话，往后余生，
+       <span class="em">风雪是你，平淡是你，心底温柔是你，目光所至，也是你。</span></p>
+
+    <div class="heart-break">♥ &nbsp; ♥ &nbsp; ♥</div>
+    <div class="sign">—— 一直都很喜欢你的我<br><span id="today"></span></div>
+  </section>
+
+  <div class="footer reveal">愿这份心意，跨越屏幕，抵达你心里</div>
+</div>
+
+<!-- ==========================================================================
+     背景音乐《只对你有感觉》
+     把 mp3 文件重命名成下面第一个 src 的名字，和本文件放在同一个文件夹即可。
+     会依次尝试下面两个地址，哪个存在就用哪个（所以中文名万一在某些服务器上
+     编码出问题，把文件改名成 music.mp3 也能正常播放）。
+     换歌的话改 src 的名字就行，格式支持 mp3 / m4a / aac。
+     ========================================================================== -->
+<audio id="bgm" loop preload="auto" playsinline webkit-playsinline x5-playsinline>
+  <source src="只对你有感觉.mp3" type="audio/mpeg">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ==========================================================================
+     【在这里替换照片链接和对应的故事文案】
+
+     使用方法：
+       1. 把 img 后面的链接换成你自己的照片（本地图片就写 "photo1.jpg"，
+          和本文件放同一个文件夹；网络图片就写完整网址 "https://..."）。
+       2. 同步修改 title（小标题）和 text（一句小故事文案），
+          图片切换时文字会自动跟着变。
+       3. 想加 / 减照片：直接复制或删除一组 { } 即可，圆点和箭头会自动适配。
+
+     小建议：照片比例 4:3 最好看，单张控制在 500KB 以内，手机加载更快。
+     ========================================================================== */
+
+  // 生成占位图（没有替换照片时也能正常预览）
+  function placeholder(n) {
+    var colors = [['#ffd9e8','#ff9ec4'], ['#ffe6d9','#ffb0a0'], ['#e8dcff','#c9a7ff'],
+                  ['#d9f0ff','#9ed0ff'], ['#fff0d9','#ffd08a']];
+    var c = colors[(n - 1) % colors.length];
+    var svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="675" viewBox="0 0 900 675">' +
+        '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+          '<stop offset="0" stop-color="' + c[0] + '"/>' +
+          '<stop offset="1" stop-color="' + c[1] + '"/>' +
+        '</linearGradient></defs>' +
+        '<rect width="900" height="675" fill="url(#g)"/>' +
+        '<circle cx="450" cy="285" r="118" fill="#ffffff" fill-opacity="0.28"/>' +
+        '<text x="450" y="312" font-size="60" text-anchor="middle" fill="#ffffff" fill-opacity="0.95">&#9829;</text>' +
+        '<text x="450" y="392" font-size="30" text-anchor="middle" font-family="sans-serif" fill="#ffffff" fill-opacity="0.95">第 ' + n + ' 张 · 在这里换成你们的照片</text>' +
+      '</svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
+  var SLIDES = [
+    { img: 'p1.jpg', title: '第一次相遇', text: '那天人很多，可我一眼就只看见了你。' },
+    { img: 'p2.jpg', title: '第一次牵手', text: '你的手很暖，我偷偷攥了一路都没舍得松开。' },
+    { img: 'p3.jpg', title: '一起看过的日落', text: '天慢慢暗下来，我心里却越来越亮。' },
+    { img: 'p4.jpg', title: '那趟说走就走的旅行', text: '目的地不重要，重要的是身边是你。' },
+    { img: 'p5.jpg', title: '想把未来交给你', text: '往后的每一张照片，我都想和你一起拍。' },
+    { img: 'p6.jpg', title: '你犯傻的样子', text: '你做什么表情我都觉得好看，能记一辈子那种。' },
+    { img: 'p7.jpg', title: '离我这么近', text: '这个距离刚刚好，近到能听见心跳。' }
+  ];
+
+  /* ====================== 日期 ====================== */
+  var d = new Date();
+  document.getElementById('today').textContent =
+    d.getFullYear() + ' 年 ' + (d.getMonth() + 1) + ' 月 ' + d.getDate() + ' 日';
+
+  /* ====================== 轮播 ====================== */
+  var stage = document.getElementById('stage');
+  var dotsBox = document.getElementById('dots');
+  var capTitle = document.getElementById('capTitle');
+  var capText = document.getElementById('capText');
+  var caption = document.getElementById('caption');
+  var index = 0, timer = null, capTimer = null;
+  var AUTO_MS = 4500; // 自动轮播间隔（毫秒）
+
+  // 构建 DOM
+  SLIDES.forEach(function (s, i) {
+    var slide = document.createElement('div');
+    slide.className = 'slide' + (i === 0 ? ' active' : '');
+    var pad = document.createElement('div');
+    pad.className = 'pad';
+    var img = document.createElement('img');
+    img.src = s.img;
+    img.alt = s.title;
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    pad.appendChild(img);
+    slide.appendChild(pad);
+    stage.appendChild(slide);
+
+    var dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' on' : '');
+    dot.setAttribute('aria-label', '第 ' + (i + 1) + ' 张');
+    dot.addEventListener('click', function () { go(i); restart(); });
+    dotsBox.appendChild(dot);
+  });
+
+  var slides = stage.querySelectorAll('.slide');
+  var dots = dotsBox.querySelectorAll('.dot');
+
+  function setCaption(i) {
+    // 文字淡出 → 换字 → 淡入，和图片切换同步
+    clearTimeout(capTimer);
+    caption.classList.add('swap');
+    capTimer = setTimeout(function () {
+      capTitle.textContent = SLIDES[i].title;
+      capText.textContent = SLIDES[i].text;
+      caption.classList.remove('swap');
+    }, 260);
+  }
+
+  function go(i) {
+    index = (i + SLIDES.length) % SLIDES.length;
+    for (var k = 0; k < slides.length; k++) {
+      slides[k].classList.toggle('active', k === index);
+      dots[k].classList.toggle('on', k === index);
+    }
+    setCaption(index);
+  }
+
+  function restart() { clearInterval(timer); timer = setInterval(function () { go(index + 1); }, AUTO_MS); }
+
+  setCaption(0);
+  restart();
+
+  document.getElementById('prev').addEventListener('click', function () { go(index - 1); restart(); });
+  document.getElementById('next').addEventListener('click', function () { go(index + 1); restart(); });
+
+  // 手机左右滑动切换
+  var sx = 0, sy = 0, moved = false;
+  stage.addEventListener('touchstart', function (e) {
+    var t = e.touches[0]; sx = t.clientX; sy = t.clientY; moved = false;
+  }, { passive: true });
+  stage.addEventListener('touchmove', function (e) {
+    if (!e.touches[0]) return;
+    moved = Math.abs(e.touches[0].clientX - sx) > Math.abs(e.touches[0].clientY - sy);
+  }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (!moved || !e.changedTouches[0]) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 36) { go(index + (dx < 0 ? 1 : -1)); restart(); }
+  }, { passive: true });
+
+  // 切到后台时暂停轮播，省电省性能
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { clearInterval(timer); } else { restart(); }
+  });
+
+  /* ====================== 爱心飘落（Canvas，高性能） ====================== */
+  var canvas = document.getElementById('hearts');
+  var ctx = canvas.getContext('2d');
+  var W = 0, H = 0, hearts = [], sprites = [], rafId = null, last = 0;
+  var COLORS = ['#ff8fb1', '#ff6f91', '#ffb3c6', '#f78fb0', '#ff9ec4', '#ffc2d4', '#ff7fa4'];
+
+  function drawHeart(g, x, y, w, h) {
+    var tc = h * 0.3;
+    g.beginPath();
+    g.moveTo(x, y + tc);
+    g.bezierCurveTo(x, y, x - w / 2, y, x - w / 2, y + tc);
+    g.bezierCurveTo(x - w / 2, y + (h + tc) / 2, x, y + (h + tc) / 2, x, y + h);
+    g.bezierCurveTo(x, y + (h + tc) / 2, x + w / 2, y + (h + tc) / 2, x + w / 2, y + tc);
+    g.bezierCurveTo(x + w / 2, y, x, y, x, y + tc);
+    g.closePath();
+  }
+
+  // 预先把爱心（含发光）画到小画布上，之后每帧只做 drawImage，手机也不卡
+  function makeSprite(color, size) {
+    var pad = Math.max(10, size * 0.5);
+    var S = Math.ceil(size + pad * 2);
+    var c = document.createElement('canvas');
+    c.width = S; c.height = S;
+    var g = c.getContext('2d');
+    g.translate(S / 2, S / 2);
+    g.fillStyle = color;
+    g.shadowColor = color;
+    g.shadowBlur = size * 0.7;
+    drawHeart(g, 0, -size * 0.62, size, size);
+    g.fill();
+    g.fill();                       // 再画一次，光晕更柔更明显
+    g.shadowBlur = 0;
+    g.globalAlpha = 0.3; g.fillStyle = '#ffffff';   // 高光，让爱心有质感
+    drawHeart(g, 0, -size * 0.56, size * 0.42, size * 0.42);
+    g.fill();
+    return c;
+  }
+  var SIZES = [14, 20, 28];
+  COLORS.forEach(function (c) {
+    SIZES.forEach(function (s) {
+      var cv = makeSprite(c, s);
+      sprites.push({ img: cv, size: s, box: cv.width });
+    });
+  });
+
+  function reset(h, first) {
+    var sp = sprites[(Math.random() * sprites.length) | 0];
+    h.sp = sp.img;
+    h.size = sp.box;
+    h.scale = 0.55 + Math.random() * 0.75;
+    h.baseX = Math.random() * W;
+    h.y = first ? Math.random() * H : -40 - Math.random() * H * 0.5;
+    h.vy = 18 + Math.random() * 38;              // 每秒下落的像素
+    h.amp = 10 + Math.random() * 34;             // 左右摆动幅度
+    h.freq = 0.25 + Math.random() * 0.5;
+    h.phase = Math.random() * Math.PI * 2;
+    h.rot = (Math.random() - 0.5) * 0.8;
+    h.vr = (Math.random() - 0.5) * 0.5;          // 每秒旋转弧度
+    h.alpha = 0.35 + Math.random() * 0.5;
+    h.t = Math.random() * 10;
+  }
+
+  function resize() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2); // 限制到 2，兼顾清晰度和性能
+    canvas.width = Math.floor(W * dpr);
+    canvas.height = Math.floor(H * dpr);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    var want = W < 500 ? 34 : (W < 900 ? 50 : 68); // 小屏少画一些，保证流畅
+    if (hearts.length > want) { hearts.length = want; }
+    while (hearts.length < want) { var h = {}; reset(h, true); hearts.push(h); }
+    // 横竖屏切换后，把跑到屏幕外的爱心拉回来
+    for (var i = 0; i < hearts.length; i++) {
+      if (hearts[i].baseX > W) hearts[i].baseX = Math.random() * W;
+    }
+  }
+
+  function frame(now) {
+    rafId = requestAnimationFrame(frame);
+    if (!last) last = now;
+    var dt = Math.min((now - last) / 1000, 0.05); // 限制步长，切后台回来不会瞬移
+    last = now;
+    ctx.clearRect(0, 0, W, H);
+
+    for (var i = 0; i < hearts.length; i++) {
+      var h = hearts[i];
+      h.t += dt;
+      h.y += h.vy * dt;
+      h.rot += h.vr * dt;
+      var x = h.baseX + Math.sin(h.t * h.freq * Math.PI) * h.amp;
+      if (h.y > H + 60) { reset(h, false); continue; }
+
+      var s = h.size * h.scale;
+      ctx.save();
+      ctx.globalAlpha = h.alpha;
+      ctx.translate(x, h.y);
+      ctx.rotate(h.rot);
+      ctx.drawImage(h.sp, -s / 2, -s / 2, s, s);
+      ctx.restore();
+    }
+  }
+
+  var rt = null;
+  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(resize, 150); });
+  window.addEventListener('orientationchange', function () { clearTimeout(rt); rt = setTimeout(resize, 300); });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    } else if (!rafId) {
+      last = 0; rafId = requestAnimationFrame(frame);
+    }
+  });
+
+  resize();
+  rafId = requestAnimationFrame(frame);
+
+  /* ====================== 滚动淡入 ====================== */
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    for (var i = 0; i < items.length; i++) io.observe(items[i]);
+  } else {
+    for (var j = 0; j < items.length; j++) items[j].classList.add('in');
+  }
+
+  /* ==========================================================================
+     背景音乐《只对你有感觉》
+     - 音乐文件：把 mp3 放到本文件同一目录，命名成"只对你有感觉.mp3"（或 music.mp3）
+     - 微信 / 手机浏览器会禁止自动播放，所以这里：
+       1) 微信就绪时尝试自动播放；
+       2) 用户第一次点击页面时再尝试一次；
+       3) 右上角 ♫ 按钮随时可以手动开关。
+     - 如果没找到音乐文件，会自动播放一段内置的轻柔钢琴音，保证开关始终可用。
+     ========================================================================== */
+  var audio = document.getElementById('bgm');
+  var btn = document.getElementById('musicBtn');
+  var toastEl = document.getElementById('toast');
+  var aState = 'unknown';    // 音乐文件状态：unknown 未知 / ok 可用 / fail 不可用
+  var userPaused = false;    // 用户是否手动关过
+  var tried = false;         // 是否已尝试过自动播放
+  var AUTO_TRY = true;       // 不想自动尝试播放，把这里改成 false
+
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { toastEl.classList.remove('show'); }, 2600);
+  }
+  function setUI(on) { btn.classList.toggle('playing', on); btn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+
+  audio.addEventListener('canplay', function () { aState = 'ok'; });
+  audio.addEventListener('error', function () { aState = 'fail'; });
+
+  /* ---- 内置备用音源（WebAudio 柔和音盒，仅在音乐文件不可用时启用） ---- */
+  var AC = window.AudioContext || window.webkitAudioContext;
+  var actx = null, master = null, seqTimer = null, step = 0;
+  var NOTES = [523.25, 587.33, 659.25, 783.99, 880.00, 659.25, 587.33, 493.88];
+
+  function tone(freq, when, vol, dur) {
+    var o = actx.createOscillator(), g = actx.createGain();
+    o.type = 'sine';
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.linearRampToValueAtTime(vol, when + 0.06);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    o.connect(g); g.connect(master);
+    o.start(when); o.stop(when + dur + 0.05);
+  }
+  function synthStart() {
+    if (!AC) return false;
+    try {
+      if (!actx) {
+        actx = new AC();
+        master = actx.createGain();
+        master.gain.value = 0.45;
+        master.connect(actx.destination);
+      }
+      if (actx.state === 'suspended' && actx.resume) actx.resume();
+      clearInterval(seqTimer);
+      seqTimer = setInterval(function () {
+        var when = actx.currentTime + 0.03;
+        tone(NOTES[step % NOTES.length], when, 0.10, 1.9);
+        if (step % 4 === 0) tone(NOTES[step % NOTES.length] / 2, when, 0.06, 2.6);
+        step++;
+      }, 880);
+      return true;
+    } catch (e) { return false; }
+  }
+  function synthStop() {
+    clearInterval(seqTimer); seqTimer = null;
+    if (actx && actx.suspend) { try { actx.suspend(); } catch (e) {} }
+  }
+
+  function isPlaying() {
+    return aState === 'ok' ? !audio.paused : !!seqTimer;
+  }
+
+  // 用内置音盒兜底
+  function fallback() {
+    if (synthStart()) { setUI(true); }
+    else { setUI(false); toast('音乐暂时无法播放，点右上角 ♫ 再试一次'); }
+  }
+
+  // 音源都 404 时（3 = NETWORK_NO_SOURCE），play() 的 Promise 可能迟迟不 settle，所以要自己判断
+  function noSource() { return audio.networkState === 3 || !!audio.error; }
+
+  var playToken = 0;   // 播放令牌：暂停后作废之前所有未完成的 play()
+
+  function play() {
+    var my = ++playToken;
+    if (aState === 'fail' || noSource()) { aState = 'fail'; fallback(); return; }
+    var settled = false;
+    var guard = setTimeout(function () {          // 超时兜底，避免点了没反应
+      if (settled || my !== playToken) return;
+      settled = true; aState = 'fail'; fallback();
+    }, 1500);
+    function done() { settled = true; clearTimeout(guard); }
+    try {
+      var p = audio.play();
+      if (p && typeof p.then === 'function') {
+        p.then(function () {
+          if (my !== playToken) return;
+          done(); aState = 'ok'; setUI(true);
+        }).catch(function () {
+          if (my !== playToken) return;          // 用户已经暂停了，就别再自作主张放歌
+          done(); aState = 'fail'; fallback();
+        });
+      } else { done(); aState = 'ok'; setUI(true); }
+    } catch (e) { done(); aState = 'fail'; fallback(); }
+  }
+
+  function pause() {
+    playToken++;                                 // 作废所有未完成的播放请求
+    try { audio.pause(); } catch (e) {}
+    synthStop();
+    setUI(false);
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (isPlaying()) { userPaused = true; pause(); }
+    else { userPaused = false; play(); }
+  });
+
+  // 自动尝试播放（被浏览器拦截属于正常情况，静默失败即可，不要误判成"文件不存在"）
+  function markFailIfNoSource() {
+    if (audio.error || audio.networkState === 3) aState = 'fail'; // 3 = 找不到音频源
+  }
+  function tryAuto() {
+    if (!AUTO_TRY || userPaused || tried || isPlaying() || aState === 'fail' || noSource()) return;
+    tried = true;
+    var my = ++playToken;
+    try {
+      var p = audio.play();
+      if (p && typeof p.then === 'function') {
+        p.then(function () {
+          if (my !== playToken) return;
+          aState = 'ok'; setUI(true);
+        }).catch(function () {
+          if (my !== playToken) return;
+          markFailIfNoSource();
+        });
+      }
+    } catch (e) { markFailIfNoSource(); }
+  }
+
+  // 微信内置浏览器就绪后尝试播放（解决 iOS 微信自动静音）
+  document.addEventListener('WeixinJSBridgeReady', tryAuto, false);
+  // 用户第一次点击 / 触摸页面时再尝试一次（解决手机浏览器静音限制）
+  document.addEventListener('touchstart', tryAuto, { passive: true });
+  document.addEventListener('click', tryAuto);
+
+  /* ==========================================================================
+     开场动画（三段，单位：秒）
+     第一段：照片汇聚成爱心 → 定型后停留一会儿 → 消散成粒子
+     第二段：粒子重组成发光粒子爱心 → 停留欣赏 → 粒子散去
+     第三段：祝福便签一颗颗弹出组成爱心 → 散开铺满全屏 → 画面定格在便签墙
+     想调节奏改下面的时间点即可
+     ========================================================================== */
+  var P_ASS = 1.55;    // 照片汇聚成爱心
+  var P_HOLD = 2.55;   // 爱心定型后再停 1 秒（P_HOLD - P_ASS），然后消散成粒子
+  var P_DONE = 3.65;   // 粒子全部到位，粒子爱心成型
+  var N_ST = 4.75;     // 便签开始一颗颗出现（粒子同步散去）
+  var N_FULL = 6.75;   // 便签开始散开，铺满全屏
+  var N_DONE = 8.20;   // 铺满完成，之后画面定格
+  var HEART_SC = 0.72; // 便签在爱心里的大小（相对铺满时的 1.0）
+
+  var TAU = Math.PI * 2;
+  var introCv = document.getElementById('intro');
+  var igtx = introCv.getContext('2d');
+  var skipEl = document.getElementById('introSkip');
+  var introRAF = null, introT0 = 0, introOn = false, spawned = false;
+  var iW = 0, iH = 0, tiles = [], parts = [], notes = [], glowSp = null, geo = null;
+
+  // 单独预加载一份图片给开场动画用（轮播里的图片可能是懒加载）
+  var introImgs = [];
+  for (var ii = 0; ii < SLIDES.length; ii++) {
+    var tim = new Image(); tim.src = SLIDES[ii].img; introImgs.push(tim);
+  }
+
+  function clamp01(v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
+  function easeOut3(x) { return 1 - Math.pow(1 - x, 3); }
+  function easeInOut(x) { return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
+  function easeBack(x) {                       // 弹一下的出现效果
+    var c1 = 1.70158, c3 = c1 + 1;
+    return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+  }
+
+  /* ==========================================================================
+     【在这里替换祝福便签文案】
+     加 / 减 / 改下面 WISHES 里的文字即可，便签数量不够时会自动循环随机取。
+     建议每条控制在 6 个字以内，太长会自动折成两行。
+     PALETTE 是便签配色：[背景色, 文字色]，粉色系为主，想换直接增减数组项。
+     ========================================================================== */
+  var WISHES = [
+    '天天开心', '永远在一起', '被偏爱', '平安喜乐', '做自己', '岁岁平安',
+    '心想事成', '好运连连', '笑口常开', '三餐四季', '余生是你', '万事胜意',
+    '越来越好看', '不许难过', '我会一直在', '记得想我', '慢慢变老', '一起旅行',
+    '早安午安', '永远爱你', '星星都给你', '做个好梦', '按时吃饭', '不许熬夜',
+    '你是首选', '唯一偏爱', '长命百岁', '要幸福啊', '有我在呢', '甜甜的一点'
+  ];
+  var PALETTE = [
+    ['#fff1f6', '#e8547f'], ['#fff2f2', '#e0605f'],
+    ['#fff6e9', '#d1873a'], ['#f4f8ff', '#5a86cc'],
+    ['#f2fff4', '#4c9d6a'], ['#f7f1ff', '#8a6bd1']
+  ];
+
+  function fitLines(g, text, maxW) {           // 中文按字换行，最多两行
+    var lines = [], cur = '';
+    for (var i = 0; i < text.length; i++) {
+      var nx = cur + text.charAt(i);
+      if (cur && g.measureText(nx).width > maxW) { lines.push(cur); cur = text.charAt(i); }
+      else cur = nx;
+    }
+    if (cur) lines.push(cur);
+    return lines.slice(0, 2);
+  }
+
+  // 把一张便签预渲染成小画布，之后每帧只 drawImage，几百张也不卡
+  function makeNoteSprite(text, w, h, pal) {
+    var pad = 9;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var c = document.createElement('canvas');
+    c.width = Math.ceil((w + pad * 2) * dpr);
+    c.height = Math.ceil((h + pad * 2) * dpr);
+    var g = c.getContext('2d');
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.translate(pad, pad);
+
+    g.shadowColor = 'rgba(233,120,160,.38)';
+    g.shadowBlur = 10; g.shadowOffsetY = 4;
+    g.fillStyle = pal[0];
+    rr(g, 0, 0, w, h, 8); g.fill();
+    g.shadowBlur = 0; g.shadowOffsetY = 0;
+
+    g.strokeStyle = 'rgba(255,255,255,.95)';
+    g.lineWidth = 1;
+    rr(g, 0.5, 0.5, w - 1, h - 1, 8); g.stroke();
+
+    g.fillStyle = 'rgba(0,0,0,.05)';          // 右下折角
+    g.beginPath();
+    g.moveTo(w - 13, h); g.lineTo(w, h - 13); g.lineTo(w, h);
+    g.closePath(); g.fill();
+
+    g.fillStyle = pal[1];
+    var fs = Math.round(Math.min(h * 0.36, w * 0.22));
+    g.font = '600 ' + fs + 'px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    var lines = fitLines(g, text, w * 0.82);
+    var lh = fs * 1.2, top = h / 2 - (lines.length - 1) * lh / 2;
+    for (var k = 0; k < lines.length; k++) g.fillText(lines[k], w / 2, top + k * lh);
+
+    return { cv: c, w: w + pad * 2, h: h + pad * 2 };
+  }
+
+  // 预渲染一层柔光，避免每帧创建渐变
+  function makeGlow() {
+    var S = 256, c = document.createElement('canvas');
+    c.width = S; c.height = S;
+    var g = c.getContext('2d');
+    var rg = g.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+    rg.addColorStop(0, 'rgba(255,140,180,.50)');
+    rg.addColorStop(0.45, 'rgba(255,175,205,.20)');
+    rg.addColorStop(1, 'rgba(255,205,225,0)');
+    g.fillStyle = rg; g.fillRect(0, 0, S, S);
+    return c;
+  }
+
+  function rr(g, x, y, w, h, r) {           // 圆角矩形（兼容老内核）
+    r = Math.min(r, w / 2, h / 2);
+    g.beginPath();
+    g.moveTo(x + r, y);
+    g.lineTo(x + w - r, y); g.quadraticCurveTo(x + w, y, x + w, y + r);
+    g.lineTo(x + w, y + h - r); g.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    g.lineTo(x + r, y + h); g.quadraticCurveTo(x, y + h, x, y + h - r);
+    g.lineTo(x, y + r); g.quadraticCurveTo(x, y, x + r, y);
+    g.closePath();
+  }
+
+  function drawCover(g, im, x, y, w, h) {   // 等效 object-fit:cover
+    var ir = im.naturalWidth / im.naturalHeight, br = w / h;
+    var sw, sh, sx, sy;
+    if (ir > br) { sh = im.naturalHeight; sw = sh * br; sx = (im.naturalWidth - sw) / 2; sy = 0; }
+    else { sw = im.naturalWidth; sh = sw / br; sx = 0; sy = (im.naturalHeight - sh) / 2; }
+    g.drawImage(im, sx, sy, sw, sh, x, y, w, h);
+  }
+
+  // 归一化爱心曲线：x = 16sin³t，y = -(13cos t - 5cos2t - 2cos3t - cos4t)
+  var HU = [];
+  (function () {
+    var tmp = [], maxX = 0, minY = 1e9, maxY = -1e9, k;
+    for (k = 0; k < 360; k++) {
+      var t = k / 360 * TAU;
+      var x = 16 * Math.pow(Math.sin(t), 3);
+      var y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+      tmp.push([x, y]);
+      if (Math.abs(x) > maxX) maxX = Math.abs(x);
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+    }
+    var mid = (minY + maxY) / 2, half = Math.max(maxY - mid, mid - minY);
+    var s = 1 / Math.max(maxX, half);
+    for (k = 0; k < tmp.length; k++) HU.push([tmp[k][0] * s, (tmp[k][1] - mid) * s]);
+  })();
+
+  function heartAt(t, rx, ry, cx, cy) {
+    var idx = ((t / TAU) * HU.length) % HU.length;
+    if (idx < 0) idx += HU.length;
+    var i0 = Math.floor(idx) % HU.length, i1 = (i0 + 1) % HU.length, f = idx - Math.floor(idx);
+    return {
+      x: cx + (HU[i0][0] * (1 - f) + HU[i1][0] * f) * rx,
+      y: cy + (HU[i0][1] * (1 - f) + HU[i1][1] * f) * ry
+    };
+  }
+
+  // 爱心轮廓的周长，用来算每一层该排多少张照片（排得密才像爱心）
+  function heartPerimeter(rx, ry) {
+    var S = 200, len = 0, px = 0, py = 0, i;
+    for (i = 0; i <= S; i++) {
+      var p = heartAt(i / S * TAU, rx, ry, 0, 0);
+      if (i) len += Math.sqrt((p.x - px) * (p.x - px) + (p.y - py) * (p.y - py));
+      px = p.x; py = p.y;
+    }
+    return len;
+  }
+
+  function startIntro() {
+    if (!sprites.length) { stopIntro(); return; }
+    if (!glowSp) glowSp = makeGlow();
+
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    iW = window.innerWidth; iH = window.innerHeight;
+    introCv.width = Math.floor(iW * dpr); introCv.height = Math.floor(iH * dpr);
+    introCv.style.width = iW + 'px'; introCv.style.height = iH + 'px';
+    igtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    var cx = iW / 2, cy = iH / 2;
+    var RY = Math.min(iW, iH) * 0.33;
+    var RX = Math.min(RY * 1.28, iW * 0.42);
+    geo = { cx: cx, cy: cy, RX: RX, RY: RY };
+
+    // ---- 照片瓦片：沿五层同心爱心密集排布，照片一张接一张循环使用 ----
+    tiles = [];
+    var base = Math.max(44, Math.min(84, Math.min(iW, iH) * 0.14));
+    var RINGS = [1, 0.8, 0.6, 0.4, 0.2];           // 由外向内的五层
+    var CAP = 56;                                  // 瓦片总数上限（低端机也跑得动）
+    var cnts = [], sum = 0, li;
+    for (li = 0; li < RINGS.length; li++) {
+      var c = Math.max(4, Math.round(heartPerimeter(RX * RINGS[li], RY * RINGS[li]) / (base * 0.82)));
+      cnts.push(c); sum += c;
+    }
+    var dil = sum > CAP ? CAP / sum : 1;           // 张数太多就整体稀释，五层都保留
+    var v = 0;                                     // 循环取照片，保证一张接一张
+    for (li = 0; li < RINGS.length; li++) {
+      var ring = RINGS[li];
+      var cnt = Math.max(4, Math.round(cnts[li] * dil));
+      for (var k = 0; k < cnt; k++) {
+        var t = (k / cnt) * TAU + li * 0.37;                        // 每层错开，避免排成直线
+        var p = heartAt(t, RX * ring, RY * ring, cx, cy);
+        var w = base * (0.78 + 0.22 * ring), h = w * 0.76;
+        var a = Math.random() * TAU, dist = Math.max(iW, iH) * 0.8;
+        tiles.push({
+          img: introImgs[v++ % introImgs.length],
+          sx: cx + Math.cos(a) * dist, sy: cy + Math.sin(a) * dist,
+          tx: p.x, ty: p.y, w: w, h: h,
+          rot: (Math.random() - 0.5) * 0.9,
+          delay: tiles.length * 0.012 + Math.random() * 0.03
+        });
+      }
+    }
+
+    buildNotes();
+    parts = []; spawned = false;
+    introCv.style.display = 'block';
+    introCv.style.opacity = 0;
+    introOn = true;
+    introT0 = (window.performance && performance.now) ? performance.now() : Date.now();
+    skipEl.classList.add('show');
+    if (introRAF) cancelAnimationFrame(introRAF);
+    introRAF = requestAnimationFrame(introFrame);
+  }
+
+  // 生成祝福便签：先排成一个爱心，之后再散开铺满全屏
+  function buildNotes() {
+    notes = [];
+    var W = iW, H = iH;
+    var cw = Math.max(58, Math.min(104, W * 0.19));
+    var ch = cw * 0.7;
+
+    // ---- 铺满全屏时的位置：抖动网格 ----
+    var cols = Math.max(1, Math.ceil(W / (cw * 0.92)));
+    var rows = Math.max(1, Math.ceil(H / (ch * 0.92)));
+    var cellW = W / cols, cellH = H / rows;
+    var cells = [], r, c, i;
+    for (r = 0; r < rows; r++) {
+      for (c = 0; c < cols; c++) {
+        cells.push({
+          x: c * cellW + cellW / 2 + (Math.random() - 0.5) * cellW * 0.24,
+          y: r * cellH + cellH / 2 + (Math.random() - 0.5) * cellH * 0.24
+        });
+      }
+    }
+    for (i = cells.length - 1; i > 0; i--) {          // 洗牌，让散开更自然
+      var j = (Math.random() * (i + 1)) | 0, tmp = cells[i];
+      cells[i] = cells[j]; cells[j] = tmp;
+    }
+    if (cells.length > 200) cells.length = 200;       // 上限，保证低端机也流畅
+
+    // ---- 爱心里的便签：四层同心爱心 ----
+    var heartCard = cw * HEART_SC;
+    var nh = Math.round((0.62 * 4 * geo.RX * geo.RY) / (heartCard * heartCard * 0.7 * 1.3));
+    nh = Math.max(20, Math.min(46, Math.min(nh, cells.length - 6)));
+    var RINGS = [1, 0.74, 0.48, 0.22], tot = 0;
+    for (i = 0; i < RINGS.length; i++) tot += RINGS[i];
+    var hpts = [];
+    for (i = 0; i < RINGS.length; i++) {
+      var cnt = Math.max(1, Math.round(nh * RINGS[i] / tot));
+      for (var k = 0; k < cnt; k++) {
+        var t = (k / cnt) * TAU + i * 0.42 + RINGS[i] * 0.3;
+        var p = heartAt(t, geo.RX * RINGS[i], geo.RY * RINGS[i], geo.cx, geo.cy);
+        hpts.push({ x: p.x + (Math.random() - 0.5) * 6, y: p.y + (Math.random() - 0.5) * 6 });
+      }
+    }
+
+    // ---- 便签贴图做成精灵池，重复复用，省内存 ----
+    var pool = [], combos = [], ti, pi;
+    for (ti = 0; ti < Math.min(12, WISHES.length); ti++) {
+      for (pi = 0; pi < PALETTE.length; pi++) combos.push([WISHES[ti], PALETTE[pi]]);
+    }
+    for (i = combos.length - 1; i > 0; i--) {
+      var jj = (Math.random() * (i + 1)) | 0, tt = combos[i];
+      combos[i] = combos[jj]; combos[jj] = tt;
+    }
+    var poolN = Math.min(36, combos.length);
+    for (i = 0; i < poolN; i++) {
+      pool.push(makeNoteSprite(combos[i][0], cw, ch, combos[i][1]));
+    }
+
+    var stepN = Math.min(0.035, 1.5 / Math.max(1, hpts.length));
+    var maxD = Math.max(iW, iH);
+    for (i = 0; i < cells.length; i++) {
+      var isH = i < hpts.length;
+      var gx = cells[i].x, gy = cells[i].y;
+      var dx = gx - geo.cx, dy = gy - geo.cy;
+      var wave = Math.min(0.55, Math.sqrt(dx * dx + dy * dy) / maxD * 1.15);
+      var sp = pool[(Math.random() * pool.length) | 0];
+      notes.push({
+        sp: sp.cv, sw: sp.w, sh: sp.h,
+        hx: isH ? hpts[i].x : geo.cx,
+        hy: isH ? hpts[i].y : geo.cy,
+        gx: gx, gy: gy,
+        r1: (Math.random() - 0.5) * 0.42,
+        r2: (Math.random() - 0.5) * 0.5,
+        delay: isH ? N_ST + i * stepN : N_FULL + wave + 0.3,
+        wave: wave,
+        hasHeart: isH
+      });
+    }
+  }
+
+  function drawNote(n, e) {
+    var x, y, sc, rot, alpha, p;
+    if (e < N_FULL) {                                  // 第一阶段：一颗颗弹出组成爱心
+      if (!n.hasHeart) return;
+      var a = clamp01((e - n.delay) / 0.45);
+      if (a <= 0) return;
+      alpha = Math.min(1, a * 2);
+      x = n.hx; y = n.hy;
+      sc = HEART_SC * (0.4 + 0.6 * easeBack(a));
+      rot = n.r1;
+    } else {                                           // 第二阶段：散开铺满全屏
+      if (n.hasHeart) {
+        p = clamp01((e - N_FULL - n.wave) / 0.9);
+        var ee = easeInOut(p);
+        x = n.hx + (n.gx - n.hx) * ee;
+        y = n.hy + (n.gy - n.hy) * ee;
+        sc = HEART_SC + (1 - HEART_SC) * easeOut3(p);
+        rot = n.r1 + (n.r2 - n.r1) * ee;
+        alpha = 1;
+      } else {
+        var q = clamp01((e - n.delay) / 0.45);
+        alpha = Math.min(1, q * 2);
+        if (alpha <= 0.02) return;
+        x = n.gx; y = n.gy;
+        sc = 0.4 + 0.6 * easeBack(q);
+        rot = n.r2;
+      }
+    }
+    igtx.save();
+    igtx.globalAlpha = alpha;
+    igtx.translate(x, y);
+    igtx.rotate(rot);
+    igtx.drawImage(n.sp, -n.sw * sc / 2, -n.sh * sc / 2, n.sw * sc, n.sh * sc);
+    igtx.restore();
+  }
+
+  // 照片消散 → 生成粒子
+  function spawnParts() {
+    var OUT = [], N = 150, i;
+    for (i = 0; i < N; i++) OUT.push(heartAt(i / N * TAU, geo.RX * 1.1, geo.RY * 1.1, geo.cx, geo.cy));
+    var oi = 0;
+    var per = Math.max(6, Math.round(340 / Math.max(1, tiles.length)));   // 粒子总数控制在 340 左右
+    for (i = 0; i < tiles.length; i++) {
+      var tl = tiles[i], cnt = per;
+      for (var k = 0; k < cnt; k++) {
+        var px = tl.tx + (Math.random() - 0.5) * tl.w * 0.85;
+        var py = tl.ty + (Math.random() - 0.5) * tl.h * 0.85;
+        var tp;
+        if (Math.random() < 0.62) { tp = OUT[oi++ % OUT.length]; }
+        else {
+          var rf = 0.35 + Math.random() * 0.6;
+          tp = heartAt(Math.random() * TAU, geo.RX * 1.1 * rf, geo.RY * 1.1 * rf, geo.cx, geo.cy);
+        }
+        parts.push({
+          x0: px, y0: py, tx: tp.x, ty: tp.y,
+          sp: sprites[(Math.random() * sprites.length) | 0].img,
+          size: 9 + Math.random() * 13,
+          alpha: 0.55 + Math.random() * 0.45,
+          delay: Math.random() * 0.28,
+          dur: 0.9 + Math.random() * 0.5,
+          curve: (Math.random() - 0.5) * 46
+        });
+      }
+    }
+  }
+
+  function tileAlpha(tl, e) {
+    var a = clamp01((e - tl.delay) / 0.45);
+    if (e > P_HOLD) a = Math.min(a, Math.max(0, 1 - (e - P_HOLD) / 0.42));
+    return a;
+  }
+
+  function drawTile(tl, e) {
+    var a = tileAlpha(tl, e);
+    if (a <= 0.02) return;
+    var p = easeOut3(clamp01((e - tl.delay) / 0.85));
+    var x = tl.sx + (tl.tx - tl.sx) * p;
+    var y = tl.sy + (tl.ty - tl.sy) * p;
+    var sc = 0.55 + 0.45 * p;
+    var w = tl.w * sc, h = tl.h * sc;
+
+    igtx.save();
+    igtx.globalAlpha = a;
+    igtx.translate(x, y);
+    igtx.rotate(tl.rot * (1 - p));
+    igtx.shadowColor = 'rgba(233,120,160,.45)';
+    igtx.shadowBlur = 12; igtx.shadowOffsetY = 6;
+    igtx.fillStyle = '#ffffff';
+    rr(igtx, -w / 2 - 4, -h / 2 - 4, w + 8, h + 8, 12);
+    igtx.fill();
+    igtx.shadowBlur = 0; igtx.shadowOffsetY = 0;
+
+    if (tl.img && tl.img.complete && tl.img.naturalWidth) {
+      igtx.save();
+      rr(igtx, -w / 2, -h / 2, w, h, 9);
+      igtx.clip();
+      drawCover(igtx, tl.img, -w / 2, -h / 2, w, h);
+      igtx.restore();
+    } else {   // 图片还没加载好时的兜底色块
+      var gd = igtx.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2);
+      gd.addColorStop(0, '#ffd9e8'); gd.addColorStop(1, '#ff9ec4');
+      igtx.fillStyle = gd;
+      rr(igtx, -w / 2, -h / 2, w, h, 9);
+      igtx.fill();
+    }
+    igtx.restore();
+  }
+
+  function drawPart(pt, e) {
+    var p = clamp01((e - P_HOLD - pt.delay) / pt.dur);
+    if (p <= 0) return;
+    var out = 1 - clamp01((e - (N_ST - 0.2)) / 0.5);   // 便签登场时粒子才散去
+    if (out <= 0.02) return;
+    var ee = easeInOut(p);
+    var x = pt.x0 + (pt.tx - pt.x0) * ee + Math.sin(p * Math.PI) * pt.curve;
+    var y = pt.y0 + (pt.ty - pt.y0) * ee + Math.cos(p * Math.PI) * pt.curve * 0.6;
+    var s = pt.size * (0.55 + 0.45 * Math.min(1, p * 2));
+    igtx.save();
+    igtx.globalAlpha = pt.alpha * Math.min(1, p * 3) * out;
+    igtx.drawImage(pt.sp, x - s / 2, y - s / 2, s, s);
+    igtx.restore();
+  }
+
+  function introFrame(now) {
+    if (!introOn) return;
+    introRAF = requestAnimationFrame(introFrame);
+    var e = (now - introT0) / 1000;
+    if (!(e >= 0)) e = 0;                                             // 防止异常时间导致负数
+
+    if (e > P_HOLD && !spawned) { spawnParts(); spawned = true; }
+
+    // 只有开头淡入，结尾不淡出：画面直接定格在便签墙上
+    var ga = e < 0.35 ? e / 0.35 : 1;
+    introCv.style.opacity = Math.min(1, Math.max(0, ga)).toFixed(3);
+
+    var fadePhoto = clamp01((e - N_ST) / 0.5);
+    var breath = 1 + Math.sin(e * 2.6) * 0.022 * (1 - fadePhoto);     // 呼吸感，便签阶段停掉
+
+    igtx.clearRect(0, 0, iW, iH);
+    igtx.save();
+    igtx.translate(geo.cx, geo.cy);
+    igtx.scale(breath, breath);
+    igtx.translate(-geo.cx, -geo.cy);
+
+    var glowA = 1 - clamp01((e - (N_ST - 0.2)) / 0.5);                // 柔光底一直陪到粒子爱心散去
+    if (glowA > 0.02) {
+      igtx.save();
+      igtx.globalAlpha = glowA;
+      var gw = geo.RX * 3.4;
+      igtx.drawImage(glowSp, geo.cx - gw / 2, geo.cy - gw / 2, gw, gw);
+      igtx.restore();
+    }
+
+    if (fadePhoto < 1) {                                              // 第一、二段：照片爱心 + 粒子爱心
+      for (var i = 0; i < tiles.length; i++) drawTile(tiles[i], e);
+      for (var j = 0; j < parts.length; j++) drawPart(parts[j], e);
+    }
+    if (e > N_ST - 0.2) {                                             // 第二段：祝福便签
+      for (var k = 0; k < notes.length; k++) drawNote(notes[k], e);
+    }
+    igtx.restore();
+
+    if (e > N_DONE + 0.5) stopIntro();   // 铺满后停止绘制，画面定格
+  }
+
+  function stopIntro() {
+    introOn = false;
+    if (introRAF) { cancelAnimationFrame(introRAF); introRAF = null; }
+    // 不隐藏画布、不淡出：就停在这面便签墙上（想恢复进正片，把下面两行的注释解开）
+    // introCv.style.display = 'none';
+    // introCv.style.opacity = 0;
+    skipEl.classList.remove('show');
+    tiles = []; parts = []; notes = [];  // 释放内存，画面内容已经在画布上，不受影响
+    // 便签墙已经盖住全屏，背景飘爱心看不见了，停掉省电（想恢复的话把这两行删掉）
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  }
+
+  function skipIntro() {
+    if (!introOn) return;
+    var now = (window.performance && performance.now) ? performance.now() : Date.now();
+    introT0 = now - (N_DONE + 0.5) * 1000;                            // 直接跳到便签铺满那一帧
+  }
+  introCv.addEventListener('click', skipIntro);
+  introCv.addEventListener('touchstart', skipIntro, { passive: true });
+  skipEl.addEventListener('click', skipIntro);
+
+  /* ==========================================================================
+     进门问答逻辑
+     - 点【同意】→ 爱心炸开，进入页面（进入后可以正常关闭页面）
+     - 点【不同意】→ 按钮会躲开 + 冒出挽留的话；躲够 3 次弹出挽留窗
+     - 挽留窗只有两个出口："再想想…"回到上一题，"我愿意"直接进入
+       也就是说：不点同意，永远进不去，也退不出去（除非直接关掉浏览器）
+     ========================================================================== */
+  var gate = document.getElementById('gate');
+  var yesBtn = document.getElementById('yesBtn');
+  var noBtn = document.getElementById('noBtn');
+  var nagEl = document.getElementById('gateNag');
+  var lulu = document.getElementById('lulu');
+  var luluWrap = document.getElementById('luluWrap');
+  var luluFace = document.getElementById('luluFace');
+  var luluImg = document.getElementById('luluImg');
+  var luluEmoji = document.getElementById('luluEmoji');
+  var tearsBox = document.getElementById('tears');
+  var ask = document.getElementById('ask');
+  var askText = document.getElementById('askText');
+  var askBack = document.getElementById('askBack');
+  var askYes = document.getElementById('askYes');
+
+  // 挽留文案：想改直接改这两条；下面 NAGS 是按钮旁边冒出来的小气泡
+  var ASK_TEXTS = ['你不愿意跟我一直在一起吗？', '你不愿意做我女朋友吗？'];
+  var NAGS = ['再考虑一下好不好…', '真的不愿意吗 🥺', '你忍心拒绝我吗…',
+              '点一下"同意"嘛，就一下 ♥', '我会一直等你的…',
+              '噜噜都哭了，你忍心吗…', '你看噜噜哭得好惨…', '噜噜哭晕过去了…'];
+
+  var noCount = 0, askIdx = 0, entered = false, nagTimer = null;
+
+  /* --------------------------------------------------------------------------
+     【在这里换成你的噜噜表情包】
+     把图片放进和 index.html 同一个文件夹，然后把文件名填到下面 img 里即可，例：
+        img: { normal:'lulu.png', sad:'lulu_cry.png', happy:'lulu_smile.png' }
+     某一项不填（留空 ''）就自动用下面的 emoji 顶着；图片加载失败也会自动退回 emoji。
+     想换占位表情（比如换成猫 🐱 狗 🐶）改 emoji 就行，TEAR 是眼泪符号。
+     -------------------------------------------------------------------------- */
+  var LULU_CONF = {
+    img:   { normal: '', sad: '', happy: '' },
+    emoji: { normal: '🐷', sad: '😭', happy: '😄' },
+    tear: '💧'
+  };
+
+  // 哭到最惨时几级停止加码；COVER_AT 指躲到第几次"同意"铺满全屏
+  var MAX_CRY = 6, COVER_AT = 7;
+
+  var luluState = '';
+  function setLulu(state) {
+    luluState = state;
+    var src = LULU_CONF.img[state];
+    lulu.classList.remove('has-img');
+    luluEmoji.textContent = LULU_CONF.emoji[state];
+    if (src) {
+      luluImg.onerror = function () { lulu.classList.remove('has-img'); };
+      luluImg.onload = function () { if (luluState === state) lulu.classList.add('has-img'); };
+      luluImg.src = src;
+      if (luluImg.complete && luluImg.naturalWidth) lulu.classList.add('has-img'); // 已缓存时也能显示
+    } else {
+      luluImg.removeAttribute('src');
+    }
+    luluFace.style.animation = 'none';
+    void luluFace.offsetWidth;                       // 重排一下，动画才会重新播放
+    luluFace.style.animation = state === 'happy'
+      ? 'luluHappy .75s cubic-bezier(.3,1.5,.5,1) forwards'
+      : 'luluBreathe 3.2s ease-in-out infinite';
+  }
+
+  // 哭：level 越大，眼泪越多越快、抖得越厉害
+  function setCry(level) {
+    tearsBox.innerHTML = '';
+    if (level <= 0) { luluWrap.style.animation = ''; return; }
+    var lv = Math.min(MAX_CRY, level);
+    var n = Math.min(9, 2 + lv);                     // 眼泪数量 3 ~ 9 滴
+    for (var i = 0; i < n; i++) {
+      var t = document.createElement('span');
+      t.className = 'tear';
+      t.textContent = LULU_CONF.tear;
+      t.style.left = (i % 2 === 0 ? 30 : 66) + '%';
+      t.style.fontSize = (12 + lv * 1.8).toFixed(0) + 'px';
+      t.style.animationDuration = Math.max(0.5, 1.25 - lv * 0.12).toFixed(2) + 's';
+      t.style.animationDelay = (Math.random() * 0.5).toFixed(2) + 's';
+      tearsBox.appendChild(t);
+    }
+    luluWrap.style.setProperty('--sh', (2 + lv * 1.6).toFixed(1) + 'px');
+    luluWrap.style.animation = 'none';
+    void luluWrap.offsetWidth;
+    luluWrap.style.animation = 'luluShake ' + Math.max(0.28, 0.62 - lv * 0.05).toFixed(2) + 's linear infinite';
+  }
+
+  setLulu('normal');
+
+  // 噜噜笑：边上冒出 ✨
+  function sparkles() {
+    for (var i = 0; i < 12; i++) {
+      (function () {
+        var s = document.createElement('span');
+        s.className = 'spark';
+        s.textContent = ['✨', '🥰', '💖', '🌟'][i % 4];
+        var a = Math.random() * Math.PI * 2;
+        var dist = 90 + Math.random() * 150;
+        s.style.setProperty('--x', (Math.cos(a) * dist).toFixed(0) + 'px');
+        s.style.setProperty('--y', (Math.sin(a) * dist).toFixed(0) + 'px');
+        s.style.animation = 'sparkGo ' + (1 + Math.random() * 0.6).toFixed(2) + 's ease-out forwards';
+        s.style.animationDelay = (Math.random() * 0.2).toFixed(2) + 's';
+        document.body.appendChild(s);
+        setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s); }, 2200);
+      })();
+    }
+  }
+
+  // 未进入前锁住页面滚动，只能先回答问题
+  document.body.style.overflow = 'hidden';
+
+  function showNag(text) {
+    nagEl.textContent = text;
+    nagEl.classList.add('show');
+    clearTimeout(nagTimer);
+    nagTimer = setTimeout(function () { nagEl.classList.remove('show'); }, 2400);
+  }
+
+  // "不同意"按钮躲开：噜噜哭、"同意"变大（大到一定程度直接铺满全屏）
+  function dodge() {
+    noCount++;
+    var maxX = window.innerWidth < 380 ? 62 : 100;
+    var dx = (Math.random() * 2 - 1) * maxX;
+    var dy = (Math.random() * 2 - 1) * 44;
+    var s = Math.max(0.5, 1 - noCount * 0.08);           // "不同意"越点越小
+    noBtn.style.transform = 'translate(' + dx.toFixed(0) + 'px,' + dy.toFixed(0) + 'px) scale(' + s.toFixed(2) + ')';
+
+    if (noCount >= COVER_AT) {                            // 到次数直接铺满全屏
+      yesBtn.classList.add('cover', 'big');
+      yesBtn.style.transform = 'none';
+    } else {                                              // 之前逐次变大
+      yesBtn.classList.add('big');
+      yesBtn.style.transform = 'scale(' + (1 + noCount * 0.42).toFixed(2) + ')';
+    }
+
+    setLulu('sad');
+    setCry(noCount);                                      // 越点哭得越厉害
+    showNag(NAGS[(noCount - 1) % NAGS.length]);
+    if (noCount >= 3) { setTimeout(openAsk, 460); }
+  }
+
+  function openAsk() {
+    askText.textContent = ASK_TEXTS[askIdx % ASK_TEXTS.length];
+    askIdx++;
+    ask.classList.add('show');
+  }
+
+  // 爱心炸开
+  function burst() {
+    for (var i = 0; i < 18; i++) {
+      (function () {
+        var s = document.createElement('span');
+        s.className = 'burst';
+        s.textContent = '♥';
+        var a = Math.random() * Math.PI * 2;
+        var dist = 110 + Math.random() * 190;
+        s.style.setProperty('--x', (Math.cos(a) * dist).toFixed(0) + 'px');
+        s.style.setProperty('--y', (Math.sin(a) * dist).toFixed(0) + 'px');
+        s.style.animation = 'burstGo ' + (0.9 + Math.random() * 0.6).toFixed(2) + 's ease-out forwards';
+        s.style.animationDelay = (Math.random() * 0.18).toFixed(2) + 's';
+        document.body.appendChild(s);
+        setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s); }, 2100);
+      })();
+    }
+  }
+
+  function enter() {
+    if (entered) return;
+    entered = true;
+    ask.classList.remove('show');
+    setCry(0);                                  // 眼泪收住
+    setLulu('happy');                           // 噜噜开心地笑
+    sparkles();
+    document.body.style.overflow = '';          // 进入后恢复正常滚动，可以随意退出
+    // 点"同意"是一次真实的用户操作，趁这个时机把音乐带起来
+    if (AUTO_TRY && !userPaused) { tried = false; tryAuto(); }
+    // 先让噜噜笑一下再转场
+    setTimeout(function () {
+      gate.classList.add('out');
+      startIntro();                             // 照片汇聚成爱心 → 粒子爱心 → 祝福便签
+      setTimeout(function () { gate.style.display = 'none'; }, 700);
+    }, 950);
+  }
+
+  yesBtn.addEventListener('click', function (e) { e.stopPropagation(); enter(); });
+  askYes.addEventListener('click', function (e) { e.stopPropagation(); enter(); });
+  askBack.addEventListener('click', function (e) {
+    e.stopPropagation();
+    ask.classList.remove('show');              // 只是回到上一题，并没有放你进去
+    showNag('再好好想一想嘛…');
+  });
+
+  // 桌面：鼠标一靠近"不同意"就跑；手机：手指一按就跑
+  noBtn.addEventListener('mouseenter', dodge);
+  noBtn.addEventListener('click', function (e) { e.preventDefault(); dodge(); });
+  noBtn.addEventListener('touchstart', function (e) { e.preventDefault(); dodge(); }, { passive: false });
+
+  // 挽留窗出现时，点背景也关不掉（这里不做任何关闭处理，就是不放你走）
+
+})();
+</script>
+</body>
+</html>
