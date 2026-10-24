@@ -255,12 +255,6 @@ body {
 /* ============ 开场动画：照片汇聚成爱心 → 化作粒子爱心 ============ */
 #intro { position:fixed; inset:0; z-index:140; display:none; opacity:0;
   background:rgba(255,247,250,.94); }
-#introSkip { position:fixed; z-index:150; left:0; right:0;
-  bottom:calc(env(safe-area-inset-bottom) + 24px); text-align:center;
-  font-size:13px; color:#d79aae; letter-spacing:.22em;
-  opacity:0; visibility:hidden; transition:opacity .4s ease; }
-#introSkip.show { opacity:1; visibility:visible; pointer-events:auto; }
-
 /* 屏幕很窄时的微调 */
 @media (max-width:360px){
   .wrap { padding-left:12px; padding-right:12px; }
@@ -319,7 +313,6 @@ body {
 
 <!-- 开场动画画布（点"同意"后播放） -->
 <canvas id="intro"></canvas>
-<div id="introSkip">轻触跳过</div>
 
 <!-- 音乐按钮 -->
 <button id="musicBtn" aria-label="背景音乐开关" aria-pressed="false">♫</button>
@@ -390,8 +383,9 @@ body {
      换歌的话改 src 的名字就行，格式支持 mp3 / m4a / aac。
      ========================================================================== -->
 <audio id="bgm" loop preload="auto" playsinline webkit-playsinline x5-playsinline>
-  <source src="只对你有感觉.mp3" type="audio/mpeg">
+  <!-- 优先用英文文件名（部分手机/微信对中文路径会加载失败），找不到再用中文名 -->
   <source src="music.mp3" type="audio/mpeg">
+  <source src="只对你有感觉.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -801,6 +795,17 @@ body {
     } catch (e) { markFailIfNoSource(); }
   }
 
+  // 微信/手机浏览器常常第一次播放被拦：连试几秒，直到真的出声
+  function keepTrying(n, gap) {
+    var i = 0;
+    (function step() {
+      if (userPaused || isPlaying()) return;
+      tried = false; tryAuto();
+      if (++i < (n || 8)) setTimeout(step, gap || 600);
+      else if (!isPlaying() && (aState === 'fail' || noSource())) fallback(); // 文件真没有就上内置音盒
+    })();
+  }
+
   // 微信内置浏览器就绪后尝试播放（解决 iOS 微信自动静音）
   document.addEventListener('WeixinJSBridgeReady', tryAuto, false);
   // 用户第一次点击 / 触摸页面时再尝试一次（解决手机浏览器静音限制）
@@ -825,7 +830,6 @@ body {
   var TAU = Math.PI * 2;
   var introCv = document.getElementById('intro');
   var igtx = introCv.getContext('2d');
-  var skipEl = document.getElementById('introSkip');
   var introRAF = null, introT0 = 0, introOn = false, spawned = false;
   var iW = 0, iH = 0, tiles = [], parts = [], notes = [], glowSp = null, geo = null;
 
@@ -1032,7 +1036,6 @@ body {
     introCv.style.opacity = 0;
     introOn = true;
     introT0 = (window.performance && performance.now) ? performance.now() : Date.now();
-    skipEl.classList.add('show');
     if (introRAF) cancelAnimationFrame(introRAF);
     introRAF = requestAnimationFrame(introFrame);
   }
@@ -1286,20 +1289,11 @@ body {
     // 不隐藏画布、不淡出：就停在这面便签墙上（想恢复进正片，把下面两行的注释解开）
     // introCv.style.display = 'none';
     // introCv.style.opacity = 0;
-    skipEl.classList.remove('show');
     tiles = []; parts = []; notes = [];  // 释放内存，画面内容已经在画布上，不受影响
     // 便签墙已经盖住全屏，背景飘爱心看不见了，停掉省电（想恢复的话把这两行删掉）
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
   }
 
-  function skipIntro() {
-    if (!introOn) return;
-    var now = (window.performance && performance.now) ? performance.now() : Date.now();
-    introT0 = now - (N_DONE + 0.5) * 1000;                            // 直接跳到便签铺满那一帧
-  }
-  introCv.addEventListener('click', skipIntro);
-  introCv.addEventListener('touchstart', skipIntro, { passive: true });
-  skipEl.addEventListener('click', skipIntro);
 
   /* ==========================================================================
      进门问答逻辑
@@ -1478,7 +1472,8 @@ body {
     sparkles();
     document.body.style.overflow = '';          // 进入后恢复正常滚动，可以随意退出
     // 点"同意"是一次真实的用户操作，趁这个时机把音乐带起来
-    if (AUTO_TRY && !userPaused) { tried = false; tryAuto(); }
+    // 点"同意"是真实用户操作，趁这次点击把音乐带起来（微信可能拦一次，所以连试几下）
+    if (AUTO_TRY && !userPaused) { tried = false; tryAuto(); keepTrying(10, 600); }
     // 先让噜噜笑一下再转场
     setTimeout(function () {
       gate.classList.add('out');
